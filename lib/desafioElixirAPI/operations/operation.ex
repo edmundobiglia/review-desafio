@@ -26,12 +26,6 @@ defmodule DesafioElixirAPI.Operation do
     timestamps()
   end
 
-  schema "withdrawals" do
-    field :amount, :float
-
-    timestamps()
-  end
-
   def changeset(struct \\ %__MODULE__{}, params) do
     struct
     |> cast(params, @required_fields ++ @optional_fields)

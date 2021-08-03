@@ -3,9 +3,9 @@ defmodule DesafioElixirAPI.Operation.Create do
   Creates a new financial operation.
   """
 
-  alias DesafioElixirAPI.Operation.Jobs.TotalOperationsSum
   alias DesafioElixirAPI.{Repo, Operation, User}
   alias Ecto.Multi
+  alias DesafioElixirAPI.Operation.Jobs.TotalOperationsSum
 
   import Ecto.Query
 
