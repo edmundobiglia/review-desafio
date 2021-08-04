@@ -6,36 +6,38 @@ defmodule DesafioElixirAPIWeb.Router do
   use DesafioElixirAPIWeb, :router
 
   pipeline :api do
-    plug :accepts, ["json"]
+    plug(:accepts, ["json"])
   end
 
   pipeline :auth do
-    plug DesafioElixirAPI.Guardian.Pipeline
+    plug(DesafioElixirAPI.Guardian.Pipeline)
   end
 
   scope "/api", DesafioElixirAPIWeb do
-    pipe_through [:api, :auth]
+    pipe_through([:api, :auth])
 
-    get "/user", UserController, :show_all
-    put "/user/:id", UserController, :update
-    delete "/user/:id", UserController, :delete
-    get "/user/:id", UserController, :show_one
+    scope "user" do
+      get("/", UserController, :show_all)
+      put("/:id", UserController, :update)
+      delete("/:id", UserController, :delete)
+      get("/:id", UserController, :show_one)
+    end
 
-    post "/operation", OperationController, :create
-    get "/operation", OperationController, :show_all
-    get "/operation/:id", OperationController, :show_one
+    post("/operation", OperationController, :create)
+    get("/operation", OperationController, :show_all)
+    get("/operation/:id", OperationController, :show_one)
 
-    get "/backoffice/daily", BackofficeController, :show_all_daily
-    get "/backoffice/weekly", BackofficeController, :show_all_weekly
-    get "/backoffice/monthly", BackofficeController, :show_all_monthly
-    get "/backoffice/qthour", BackofficeController, :show_all_qt_hour
+    get("/backoffice/daily", BackofficeController, :show_all_daily)
+    get("/backoffice/weekly", BackofficeController, :show_all_weekly)
+    get("/backoffice/monthly", BackofficeController, :show_all_monthly)
+    get("/backoffice/qthour", BackofficeController, :show_all_qt_hour)
   end
 
   scope "/api", DesafioElixirAPIWeb do
-    pipe_through :api
+    pipe_through(:api)
 
-    post "/user", UserController, :create
-    post "/login", SessionController, :create_token
+    post("/user", UserController, :create)
+    post("/login", SessionController, :create_token)
   end
 
   # Enables LiveDashboard only for development
@@ -49,8 +51,8 @@ defmodule DesafioElixirAPIWeb.Router do
     import Phoenix.LiveDashboard.Router
 
     scope "/" do
-      pipe_through [:fetch_session, :protect_from_forgery]
-      live_dashboard "/dashboard", metrics: DesafioElixirAPIWeb.Telemetry
+      pipe_through([:fetch_session, :protect_from_forgery])
+      live_dashboard("/dashboard", metrics: DesafioElixirAPIWeb.Telemetry)
     end
   end
 end
